@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>万古神帝-目录</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "宋体";
+        }
+
+        body {
+            box-sizing: border-box;
+            position: relative;
+            height: 100vh;
+
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 50px;
+            background-color: #000000;
+            /* border-radius: 0 0 10px 10px; */
+            color: #fff;
+            font-size: 14px;
+        }
+        .header div ,.header a{
+            margin: 0 5%;
+            letter-spacing: 2px;
+            text-decoration: none;
+            color: #fff;
+        }
+        .selectPageIndex{
+            margin: 0 5%;
+            width: 30%;
+            height: 25px;
+            border: none;
+            border-radius: 60px;
+            /* text-indent: 15%; */
+            text-align: center;
+            font-weight: 700;
+            font-size: 17px;
+        }
+        .selectPageIndex:focus{
+            outline: none;
+        }
+        .chapterTitle_list{
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 50px;
+        }
+        .chapterTitle_list a{
+            line-height: 45px;
+            /* border-top: 1px solid #ececec; */
+            border-bottom: 1px solid #ececec;
+            text-indent: 5%;
+            letter-spacing: 2px;
+            text-decoration: none;
+            color: #333;
+        }
+        .nomore{
+            margin: 5vh 0 0 0;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chapterTitle_list">
+
+    </div>
+    <!-- <div class="nomore">每页仅有20章节哦~</div> -->
+    <div class="footer">
+        <div class="Previous_page">上一页</div>
+        <input type="number" class="selectPageIndex">
+        <div class="Next_page">下一页</div>
+    </div>
+    <script>
+        let chapterTitle_list=document.querySelector(".chapterTitle_list");
+        let selectPageIndex=document.querySelector(".selectPageIndex");
+        let Previous_page=document.querySelector(".Previous_page");
+        let Next_page=document.querySelector(".Next_page");
+
+        // 每页章节数
+        let page_chapter_number=100;
+
+        fetch("./novel.json")
+                    .then((response) => response.json())
+                    .then((data) => {
+                        // 小说所有章节数据
+                        let all_chapter_data = data["RECORDS"];
+
+                        // 选择的页数
+                        let PageIndex=1;
+
+                        selectPageIndex.value=PageIndex;
+
+                        chapterTitle_list.innerHTML="";
+
+                        for (let i = (PageIndex-1)*page_chapter_number; i < (PageIndex)*page_chapter_number; i++) {
+                            let a=document.createElement("a");
+                            a.href="./index.html";
+                            a.onclick=()=>{
+                                localStorage.setItem("chapterIndex", all_chapter_data[i].chapterIndex);
+                            }
+                            a.innerText=all_chapter_data[i].chapterTitle;
+                            chapterTitle_list.appendChild(a);
+                        }
+
+                        selectPageIndex.oninput=()=>{
+                            PageIndex=selectPageIndex.value;
+
+                            flushed(PageIndex,all_chapter_data);
+                        }
+
+                        Previous_page.onclick=()=>{
+                            if (PageIndex>1) {
+                                PageIndex-=1;
+                                flushed(PageIndex,all_chapter_data);
+
+                            }
+                        }
+
+                        Next_page.onclick=()=>{
+                            console.log(
+                                PageIndex
+                            );
+                            if(PageIndex<=Math.ceil(all_chapter_data.length/page_chapter_number)){
+                                PageIndex+=1;
+                                flushed(PageIndex,all_chapter_data);
+
+                            }
+                            console.log(
+                                PageIndex
+                            );
+                        }
+
+                        console.log(all_chapter_data);
+                    });
+
+                    function flushed(PageIndex,all_chapter_data){
+                        selectPageIndex.value=PageIndex;
+                        if(PageIndex>=0){
+                                chapterTitle_list.innerHTML="";
+
+                                for (let i = (PageIndex-1)*page_chapter_number; i < (PageIndex)*page_chapter_number; i++) {
+                                    let a=document.createElement("a");
+                                    a.href="./index.html";
+                            a.onclick=()=>{
+                                localStorage.setItem("chapterIndex", all_chapter_data[i].chapterIndex);
+                            }
+                                    a.innerText=all_chapter_data[i].chapterTitle;
+                                    chapterTitle_list.appendChild(a);
+                                }
+                            }
+                    }
+    </script>
+</body>
+</html>

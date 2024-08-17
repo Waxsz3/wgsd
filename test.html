@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    body {
+      overflow: hidden;
+    }
+
+  .page {
+      width: 100%;
+      height: 100vh;
+      perspective: 1000px;
+    }
+
+  .page-content {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.5s ease;
+    }
+
+  .page-front,
+ .page-back {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      backface-visibility: hidden;
+    }
+
+  .page-front {
+      background-color: #f1f1f1;
+    }
+
+  .page-back {
+      background-color: #e1e1e1;
+      transform: rotateY(180deg);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <div class="page-content" id="pageContent">
+      <div class="page-front">
+        这是前一页的内容
+      </div>
+      <div class="page-back">
+        这是后一页的内容
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var startX = 0;
+    var endX = 0;
+    var pageContent = document.getElementById('pageContent');
+
+    document.addEventListener('touchstart', function (e) {
+      startX = e.touches[0].screenX;
+    });
+
+    document.addEventListener('touchend', function (e) {
+      endX = e.changedTouches[0].screenX;
+
+      if (endX - startX > 50) {
+        pageContent.style.transform = 'rotateY(180deg)';
+      } else if (startX - endX > 50) {
+        pageContent.style.transform = 'rotateY(0deg)';
+      }
+    });
+  </script>
+</body>
+
+</html>
