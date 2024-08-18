@@ -14,7 +14,6 @@
         }
 
         body {
-            /* box-sizing: border-box; */
             height: 100vh;
             background-color: #fefff6;
         }
@@ -24,11 +23,6 @@
             justify-content: center;
             align-items: center;
             height: 50px;
-            /* background-color: #0000003c; */
-            /* background-color: #ffe373; */
-            
-            /* border-radius: 0 0 10px 10px; */
-            /* color: #fff; */
             font-size: 16px;
             border-bottom: 1px dashed #333;
         }
@@ -37,11 +31,6 @@
             justify-content: center;
             align-items: center;
             height: 50px;
-            /* background-color: #0000003c; */
-            /* background-color: #ffe373; */
-            
-            /* border-radius: 0 0 10px 10px; */
-            /* color: #fff; */
             font-size: 16px;
             border-top: 1px dashed #333;
         }
@@ -114,10 +103,6 @@
                 let all_chapter_data = data["RECORDS"];
 
                 console.log(all_chapter_data[Number(chapterIndex) - 1]);
-
-                // chapter_content_container.innerText =
-                //     all_chapter_data[Number(chapterIndex) - 1].chapterContent;
-
                 flushed(all_chapter_data[Number(chapterIndex) - 1]);
 
                 Previous_chapter.forEach(Previous_chapter_item=>{
@@ -135,9 +120,6 @@
         left: 0, 
         behavior: 'smooth' 
       });
-                            // chapterIndex.innerText="";
-                            // chapter_content_container.innerText =
-                            //     all_chapter_data[Number(chapterIndex) - 1].chapterContent;
                         }
                     };
                 })
@@ -157,9 +139,6 @@
         left: 0, 
         behavior: 'smooth' 
       });
-                            // chapterIndex.innerText="";
-                            // chapter_content_container.innerText =
-                            //     all_chapter_data[Number(chapterIndex) - 1].chapterContent;
                         }
                     };
                 })
