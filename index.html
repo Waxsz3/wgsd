@@ -95,8 +95,9 @@
         let chapter_content_container = document.querySelector(
             ".chapter_content_container"
         );
-        let Previous_chapter = document.querySelector(".Previous_chapter");
-        let Next_chapter = document.querySelector(".Next_chapter");
+        let Previous_chapter = document.querySelectorAll(".Previous_chapter");
+        let Next_chapter = document.querySelectorAll(".Next_chapter");
+
 
         let chapterIndex;
 
@@ -106,6 +107,8 @@
         } else {
             chapterIndex = localStorage.getItem("chapterIndex");
         }
+
+        
 
         fetch("./novel.json")
             .then((response) => response.json())
@@ -120,45 +123,61 @@
 
                 flushed(all_chapter_data[Number(chapterIndex) - 1]);
 
-                Previous_chapter.onclick = () => {
-                    console.log("Previous_chapter");
+                Previous_chapter.forEach(Previous_chapter_item=>{
+                    Previous_chapter_item.onclick = () => {
+                        console.log("Previous_chapter");
 
-                    if (Number(chapterIndex) > 1) {
-                        chapterIndex = String(Number(chapterIndex) - 1);
-                        localStorage.setItem("chapterIndex", chapterIndex);
-                        chapterIndex = localStorage.getItem("chapterIndex");
+                        if (Number(chapterIndex) > 1) {
+                            chapterIndex = String(Number(chapterIndex) - 1);
+                            localStorage.setItem("chapterIndex", chapterIndex);
+                            chapterIndex = localStorage.getItem("chapterIndex");
 
-                flushed(all_chapter_data[Number(chapterIndex) - 1]);
+                    flushed(all_chapter_data[Number(chapterIndex) - 1]);
+                    window.scrollTo({ 
+        top: 0, 
+        left: 0, 
+        behavior: 'smooth' 
+      });
+                            // chapterIndex.innerText="";
+                            // chapter_content_container.innerText =
+                            //     all_chapter_data[Number(chapterIndex) - 1].chapterContent;
+                        }
+                    };
+                })
+                Next_chapter.forEach(Next_chapter_item=>{
+                    Next_chapter_item.onclick = () => {
+                        console.log("Next_chapter");
 
-                        // chapterIndex.innerText="";
-                        // chapter_content_container.innerText =
-                        //     all_chapter_data[Number(chapterIndex) - 1].chapterContent;
-                    }
-                };
-                Next_chapter.onclick = () => {
-                    console.log("Next_chapter");
+                        if (Number(chapterIndex) < all_chapter_data.length - 1) {
 
-                    if (Number(chapterIndex) < all_chapter_data.length - 1) {
+                            chapterIndex = String(Number(chapterIndex) + 1);
+                            localStorage.setItem("chapterIndex", chapterIndex);
+                            chapterIndex = localStorage.getItem("chapterIndex");
 
-                        chapterIndex = String(Number(chapterIndex) + 1);
-                        localStorage.setItem("chapterIndex", chapterIndex);
-                        chapterIndex = localStorage.getItem("chapterIndex");
-
-                flushed(all_chapter_data[Number(chapterIndex) - 1]);
-
-                        // chapterIndex.innerText="";
-                        // chapter_content_container.innerText =
-                        //     all_chapter_data[Number(chapterIndex) - 1].chapterContent;
-                    }
-                };
+                    flushed(all_chapter_data[Number(chapterIndex) - 1]);
+                    window.scrollTo({ 
+        top: 0, 
+        left: 0, 
+        behavior: 'smooth' 
+      });
+                            // chapterIndex.innerText="";
+                            // chapter_content_container.innerText =
+                            //     all_chapter_data[Number(chapterIndex) - 1].chapterContent;
+                        }
+                    };
+                })
+                
             })
             .catch((error) => {
                 console.error("获取数据时出错:", error);
             });
 
             function flushed(all_chapter){
+                chapter_content_container.innerHTML="";
+
                 all_chapter.chapterContent.split("\n").forEach(content => {
                     chapterIndex.innerText="";
+
 
                     let p=document.createElement("p");
 
