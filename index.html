@@ -14,7 +14,12 @@
         }
 
         body {
+            /* box-sizing: border-box; */
             height: 100vh;
+            /* background-image: url("https://gd-hbimg.huaban.com/fedf400fc17373e4289e09a662dde79649f83f1e1b481-95YtsU_fw658"); */
+            /* background-size: cover;
+            background-attachment: fixed; */
+            background-color: #fefff6;
         }
 
         .header {
@@ -22,24 +27,54 @@
             justify-content: center;
             align-items: center;
             height: 50px;
-            background-color: #000000;
+            /* background-color: #0000003c; */
+            /* background-color: #ffe373; */
+            
             /* border-radius: 0 0 10px 10px; */
-            color: #fff;
-            font-size: 14px;
+            /* color: #fff; */
+            font-size: 16px;
+            border-bottom: 1px dashed #333;
+        }
+        .footer{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+            /* background-color: #0000003c; */
+            /* background-color: #ffe373; */
+            
+            /* border-radius: 0 0 10px 10px; */
+            /* color: #fff; */
+            font-size: 16px;
+            border-top: 1px dashed #333;
         }
 
         .header div ,.header a{
             margin: 0 5%;
             letter-spacing: 2px;
             text-decoration: none;
-            color: #fff;
+            color: #272727;
+        }
+        .footer div ,.footer a{
+            margin: 0 5%;
+            letter-spacing: 2px;
+            text-decoration: none;
+            color: #272727;
         }
 
         .chapter_content_container {
             box-sizing: border-box;
             padding: 10px 5%;
-            line-height: 30px;
+            line-height: 35px;
             letter-spacing: 1px;
+            font-size: 18px;
+            color: #000000;
+        }
+        .chapter_content_container p:nth-child(1){
+            font-size: 20px;
+            line-height: 45px;
+            color: #000000;
+            letter-spacing: 3px;
         }
     </style>
 </head>
@@ -51,7 +86,11 @@
         <div class="Next_chapter">下一章</div>
     </div>
     <div class="chapter_content_container"></div>
-
+    <div class="footer">
+        <div class="Previous_chapter">上一章</div>
+        <a href="./directory_page.html" class="directory">目录</a>
+        <div class="Next_chapter">下一章</div>
+    </div>
     <script>
         let chapter_content_container = document.querySelector(
             ".chapter_content_container"
@@ -76,8 +115,10 @@
 
                 console.log(all_chapter_data[Number(chapterIndex) - 1]);
 
-                chapter_content_container.innerText =
-                    all_chapter_data[Number(chapterIndex) - 1].chapterContent;
+                // chapter_content_container.innerText =
+                //     all_chapter_data[Number(chapterIndex) - 1].chapterContent;
+
+                flushed(all_chapter_data[Number(chapterIndex) - 1]);
 
                 Previous_chapter.onclick = () => {
                     console.log("Previous_chapter");
@@ -86,9 +127,12 @@
                         chapterIndex = String(Number(chapterIndex) - 1);
                         localStorage.setItem("chapterIndex", chapterIndex);
                         chapterIndex = localStorage.getItem("chapterIndex");
-                        chapterIndex.innerText="";
-                        chapter_content_container.innerText =
-                            all_chapter_data[Number(chapterIndex) - 1].chapterContent;
+
+                flushed(all_chapter_data[Number(chapterIndex) - 1]);
+
+                        // chapterIndex.innerText="";
+                        // chapter_content_container.innerText =
+                        //     all_chapter_data[Number(chapterIndex) - 1].chapterContent;
                     }
                 };
                 Next_chapter.onclick = () => {
@@ -99,15 +143,31 @@
                         chapterIndex = String(Number(chapterIndex) + 1);
                         localStorage.setItem("chapterIndex", chapterIndex);
                         chapterIndex = localStorage.getItem("chapterIndex");
-                        chapterIndex.innerText="";
-                        chapter_content_container.innerText =
-                            all_chapter_data[Number(chapterIndex) - 1].chapterContent;
+
+                flushed(all_chapter_data[Number(chapterIndex) - 1]);
+
+                        // chapterIndex.innerText="";
+                        // chapter_content_container.innerText =
+                        //     all_chapter_data[Number(chapterIndex) - 1].chapterContent;
                     }
                 };
             })
             .catch((error) => {
                 console.error("获取数据时出错:", error);
             });
+
+            function flushed(all_chapter){
+                all_chapter.chapterContent.split("\n").forEach(content => {
+                    chapterIndex.innerText="";
+
+                    let p=document.createElement("p");
+
+                    p.innerText=content;
+                    
+                    chapter_content_container.appendChild(p);
+
+                });
+            }
     </script>
 </body>
 
